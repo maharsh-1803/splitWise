@@ -3,16 +3,20 @@ const express = require('express');
 const app = express();
 const env = require('dotenv');
 env.config();
+const bodyParser = require('body-parser')
 const cors = require('cors')
 const userRoute = require('./route/user.route.js')
+const groupRoute = require('./route/group.route.js')
 
 
 app.use(cors());
-app.use(express.json())
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 const PORT = process.env.PORT;
 
 app.use('/api/User',userRoute);
+app.use('/api/Group',groupRoute);
 
 const connectToMongoDB = async()=>{
     try {
