@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 
 const AuthToken = async (req, res, next) => {
     try {
-        const token = req.headers['authorization'];
+        const token = req.headers['Authorization'];
 
         if (!token) {
             return res.status(401).send({ message: "Token not provided" });
