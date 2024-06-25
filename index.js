@@ -7,6 +7,7 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const userRoute = require('./route/user.route.js')
 const groupRoute = require('./route/group.route.js')
+const expenseRoute = require('./route/expense.route.js');
 
 
 app.use(cors());
@@ -17,6 +18,7 @@ const PORT = process.env.PORT;
 
 app.use('/api/User',userRoute);
 app.use('/api/Group',groupRoute);
+app.use('/api/Expense',expenseRoute);
 
 const connectToMongoDB = async()=>{
     try {

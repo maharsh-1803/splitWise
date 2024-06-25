@@ -2,13 +2,12 @@ const jwt = require('jsonwebtoken');
 
 const AuthToken = async (req, res, next) => {
     try {
-        const token = req.headers['Authorization'];
+        const token = req.headers['authorization'];
 
         if (!token) {
             return res.status(401).send({ message: "Token not provided" });
         }
-
-        jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
+        jwt.verify(token,process.env.SECRET_KEY, (err, decoded) => {
             if (err) {
                 return res.status(401).json({ message: "Failed to verify token" });
             }
