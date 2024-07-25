@@ -71,8 +71,31 @@ const getGroupById = async(req,res)=>{
     }
 }
 
+const getMyGroup = async (req, res) => {
+    try {
+      const tokenData = req.user;
+      const userId = tokenData._id;
+  
+      const groups = await Group.find({ members: userId }).populate('members', 'username');
+  
+      res.status(200).json({
+        success: true,
+        message: 'Groups retrieved successfully',
+        groups,
+      });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: 'Failed to retrieve groups',
+        error: error.message,
+      });
+    }
+  };
+  
+
 module.exports={
     createGroup,
     getGroup,
-    getGroupById
+    getGroupById,
+    getMyGroup
 }
