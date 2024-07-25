@@ -38,7 +38,24 @@ const login = async(req,res)=>{
     }
 }
 
+const displayAllUser = async(req,res)=>{
+    try {
+        const users = await User.find();
+        if(!users){
+            return res.status(404).send({message:"user not found"})
+        }
+        return res.status(200).json({
+            success:true,
+            message:"user retrived successfully",
+            users:users
+        })
+    } catch (error) {
+        return res.status(500).send({error:error.message})
+    }
+}
+
 module.exports={
     signUp,
-    login
+    login,
+    displayAllUser
 }

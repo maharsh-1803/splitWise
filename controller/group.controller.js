@@ -5,16 +5,21 @@ const createGroup = async (req, res) => {
     try {
         const { name, members, groupType } = req.body;
 
-        const membersArray = Array.isArray(members) ? members : [members];
+        // Convert comma-separated string to array of usernames
+        const membersArray = members.split(',');
 
+        // Find users by usernames
         const validMembers = await User.find({ username: { $in: membersArray } }).select('_id username');
 
+        // Check if all provided members are valid
         if (validMembers.length !== membersArray.length) {
             return res.status(400).json({ message: 'Some members do not exist' });
         }
 
+        // Map valid members to their IDs
         const memberIds = validMembers.map(member => member._id);
 
+        // Create and save new group
         const newGroup = new Group({
             name,
             members: memberIds,
@@ -31,6 +36,7 @@ const createGroup = async (req, res) => {
         return res.status(500).send({ error: error.message });
     }
 };
+
 
 
 const getGroup = async(req,res)=>{
