@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
 const expenseSchema = new mongoose.Schema({
+    groupId:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'group'
+    },
     description:{
         type:String,
         require:true

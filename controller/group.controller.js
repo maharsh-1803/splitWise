@@ -58,7 +58,7 @@ const getGroup = async(req,res)=>{
 const getGroupById = async(req,res)=>{
     try {
         const {id} = req.params;
-        const group = await Group.findById(id);
+        const group = await Group.findById(id).populate('members','username');
         if(!group){
             return res.status(400).send({message:"group is not available with this id"});
         }
@@ -91,11 +91,25 @@ const getMyGroup = async (req, res) => {
       });
     }
   };
+
+const deleteGroup = async(req,res)=>{
+    try {
+        const {id} = req.params;
+        const group = await Group.findByIdAndDelete(id)
+        if(!group){
+            return res.status(404).send({message:"group not found"})
+        }
+        return res.status(200).send({message:"group deleted successfully"})
+    } catch (error) {
+        return res.status(500).send({error:error.message})
+    }
+}
   
 
 module.exports={
     createGroup,
     getGroup,
     getGroupById,
-    getMyGroup
+    getMyGroup,
+    deleteGroup
 }
